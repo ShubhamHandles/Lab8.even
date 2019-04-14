@@ -111,7 +111,7 @@ public:
 			root=B;  
 	}
 	
-	void delet(int value){
+		void delet(int value){
 		//search node with the value and store
 		Node* remove = search(value);
 		//if not present
@@ -121,24 +121,31 @@ public:
 		//if present
 		else{
 			//replacement node
-			Node* replace;
+			Node* replace ;
 			//if the delet node has two children
 			if(remove->left!=NULL and remove->right!=NULL){
 				//find replacement
 				replace = find_min(remove->right);
-				//replace
-				replace_with_parent(remove,replace);
+				//cout << replace->data << endl;
+				//swap values
+				int temp=replace->data;
+				replace->data=remove->data;
+				remove->data=temp;
+				//remove the swaped node
+				remove=replace;
+				//replace_with_parent(remove,replace);
 				//establish connection 
 				//with left side
-				replace->left = remove->left;
-				remove->left->parent = replace;
+				//replace->left = remove->left;
+				//remove->left->parent = replace;
 				//if right sub tree has more children
-				if(remove->right!=replace){
-					replace->right = remove->right;
-					remove->right->parent = replace;
-				}
+//				if(remove->right!=replace){
+//					replace->right = remove->right;
+//					remove->right->parent = replace;
+//				}
+//				*/
 			}
-			else{
+			//else{
 				//if only left child
 				if(remove->right==NULL){
 					replace = remove->left;
@@ -150,7 +157,9 @@ public:
 				//if no child, then simply delet
 				//replace
 				replace_with_parent(remove, replace);
-			}
+				//if root is removed , replace becomes new root
+				if(root == remove) root = replace;
+			//}
 			delete remove;
 		}
 	}
